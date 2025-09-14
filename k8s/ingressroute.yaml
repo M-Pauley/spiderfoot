@@ -1,0 +1,27 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: spiderfoot
+  namespace: devsec
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`m.screaming-fist.com`) && PathPrefix(`/spider`)
+      kind: Rule
+      services:
+        - name: spiderfoot
+          port: 5001
+      middlewares:
+        - name: strip-spider
+  tls: {}  # Traefik terminates TLS
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: strip-spider
+  namespace: devsec
+spec:
+  stripPrefix:
+    prefixes:
+      - /spider

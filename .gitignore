@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.pyc
+
+# Docker
+*.tar
+.env
+.dockerignore
+
+# K8s/Argo/Kustomize
+*.log
+*.tmp
+# secrets (never commit raw secrets)
+secrets/
+**/credentials.json
+**/cloudflared/*.json
+
+# OS/editor
+.DS_Store
+*.swp

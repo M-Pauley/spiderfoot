@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spiderfoot
+  namespace: devsec
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: spiderfoot }
+  template:
+    metadata:
+      labels: { app: spiderfoot }
+    spec:
+      containers:
+        - name: spiderfoot
+          # If this 404s at pull time, swap to building your own image from upstream Dockerfile.
+          # Upstream listens on 5001 per docs.
+          image: joshuapfritz/spiderfoot
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5001
+          # SpiderFoot has a built-in SQLite DB; persist the app dir to keep scans/config.
+          volumeMounts:
+            - name: data
+              mountPath: /root/.spiderfoot
+          # Basic health checks—UI returns 200 on "/"
+          readinessProbe:
+            httpGet: { path: "/", port: 5001 }
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket: { port: 5001 }
+            initialDelaySeconds: 20
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "1"
+              memory: "2Gi"
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: spiderfoot-data

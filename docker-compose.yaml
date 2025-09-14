@@ -1,0 +1,8 @@
+services:
+  spiderfoot:
+    image: joshuapfritz/spiderfoot:v4.0
+    ports:
+      - "5001:5001"
+    volumes:
+      - ./spiderfoot-data:/data
+    restart: unless-stopped
