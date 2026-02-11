@@ -1,5 +1,3 @@
-Love it—here’s a clean, copy-paste Docker Hub description for your SpiderFoot image.
-
 # joshuapfritz/spiderfoot
 
 Containerized **SpiderFoot** OSINT scanner with a non-root runtime, sane defaults, and versioned tags.
