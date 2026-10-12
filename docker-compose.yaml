@@ -1,8 +1,15 @@
 services:
   spiderfoot:
-    image: joshuapfritz/spiderfoot:v4.0
+    image: joshuapfritz/spiderfoot:v4.0-update
+    user: "10001:10001"
     ports:
-      - "5001:5001"
+      - "127.0.0.1:5001:5001"
+    environment:
+      HOME: /data
     volumes:
       - ./spiderfoot-data:/data
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
     restart: unless-stopped
