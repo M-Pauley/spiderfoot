@@ -1,14 +1,14 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: devsec
+namespace: spiderfoot
 images:
   - name: joshuapfritz/spiderfoot
     newName: joshuapfritz/spiderfoot
-    newTag: v4.0
+    newTag: v4.0-update
 resources:
   - pvc.yaml
   - service.yaml
   - deployment.yaml
-  - ingressroute.yaml
-patchesStrategicMerge:
-  - deployment-patch.yaml
+  # - ingressroute.yaml  # (optional) Traefik IR.
+  - namespace.yaml
+
